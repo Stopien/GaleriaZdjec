@@ -130,7 +130,7 @@ let ImageOpened = false;
 
   function FindPage(inputPage) {
       for (let i = 0; i < pageContent.length; i++) {
-          if (pageContent[i][0] === inputPage) {
+          if (pageContent[i][0].toLowerCase() === inputPage.toLowerCase() ||  ) {
               return i;
           }
       }
