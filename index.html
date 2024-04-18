@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html lang="pl">
+<head>
+    <link rel="icon" type="image/x-icon" href="Zdjecia/Ikona.png">
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width"/>
+    <title>Galeria zdjęć</title>
+    <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+    <div id="container">
+        <div id="header">
+            <div id="slideShow">
+                <input type="text" id="inputSlide" placeholder="Wpisz nazwę strony...">
+                <button id="btSlide">Rozpocznij</button>
+            </div>
+            <button id="btInfo">?</button>
+			<div id="appender"></div>
+            <h1>Galeria zdjęć!</h1>
+            <p>Strona: <span id="showPageNum">1</span></p>
+            <h2 id="title">Tytuł strony</h2>
+        </div>
+        <div id="gallery"></div>
+        <div id="footer">
+            <button id="goLeft">&lt;</button>
+            <button id="goRight">&gt;</button>
+        </div>
+    </div>
+    <script src="main.js"></script>
+</body>
+</html>
