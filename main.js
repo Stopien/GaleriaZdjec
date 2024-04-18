@@ -128,14 +128,19 @@ let ImageOpened = false;
       }, 5000);
   }
 
-  function FindPage(inputPage) {
-      for (let i = 0; i < pageContent.length; i++) {
-          if (pageContent[i][0].toLowerCase() === inputPage.toLowerCase() ||  ) {
-              return i;
-          }
-      }
-      return -1;
-  }
+function FindPage(inputPage) {
+    const lowerInputPage = inputPage.trim().toLowerCase();
+
+    for (let i = 0; i < pageContent.length; i++) {
+        const currentPageName = pageContent[i][0].trim().toLowerCase();
+
+        if (currentPageName === lowerInputPage) {
+            return i;
+        }
+    }
+   
+    return -1; 
+}
 
   async function StartSlideShow() {
     const userInput = inputSlide.value.trim();
