@@ -35,10 +35,18 @@ document.addEventListener("DOMContentLoaded", () => {
   const gallery = document.getElementById("gallery");
   const title = document.getElementById("title");
   const btInfo = document.getElementById("btInfo");
-  const ap = document.getElementById("appender");
   const btSlide = document.getElementById("btSlide");
-  const inputSlide = document.getElementById("inputSlide");
+  const optionList = document.getElementById("listSlide")
 
+//Dodanie opcji do listy, wywołane odrazu po załadowaniu strony
+  for (let i = 0; i < pageContent.length; i++) {
+          const text = pageContent[i][0];
+          const option = document.createElement('option');
+          option.textContent = text;
+          listSlide.appendChild(option);
+  }
+  
+  //Funkcje 
   function ButtonLeftClick() {
       if (page > 0) {
           page--;
@@ -99,7 +107,7 @@ let ImageOpened = false;
       }
   }
 
-  function ShowAvailablePages() {
+  function ShowInfo() {
       btInfo.disabled = true;
 
       const InfoContainer = document.createElement('div');
@@ -112,29 +120,27 @@ let ImageOpened = false;
       for (let i = 0; i < pageContent.length; i++) {
           const text = pageContent[i][0];
           const li = document.createElement('li');
+		  li.className = 'liInfo'
           li.textContent = text;
           list.appendChild(li);
       }
 
       const p = document.createElement("p");
-      p.innerHTML = 'Możesz wpisać te nazwy<br> aby wyświetlić pokaz slajdów.';
+      p.innerHTML = 'Możesz użyć listy i przycisku </br> po lewej stronie aby </br> wyświetlić pokaz slajdów';
       InfoContainer.appendChild(p);
 
-      ap.appendChild(InfoContainer);
+      document.body.appendChild(InfoContainer);
 
       setTimeout(() => {
-          ap.removeChild(InfoContainer);
+          document.body.removeChild(InfoContainer);
           btInfo.disabled = false;
       }, 5000);
   }
 
 function FindPage(inputPage) {
-    const lowerInputPage = inputPage.trim().toLowerCase();
-
     for (let i = 0; i < pageContent.length; i++) {
-        const currentPageName = pageContent[i][0].trim().toLowerCase();
-
-        if (currentPageName === lowerInputPage) {
+        const currentPageName = pageContent[i][0];
+        if (currentPageName === inputPage) {
             return i;
         }
     }
@@ -143,12 +149,7 @@ function FindPage(inputPage) {
 }
 
   async function StartSlideShow() {
-    const userInput = inputSlide.value.trim();
-    if (userInput === "") {
-        alert("Wprowadź nazwę strony.");
-        return;
-    }
-
+    const userInput = optionList.value
     const pageIndex = FindPage(userInput);
 
     if (pageIndex !== -1) {
@@ -170,7 +171,7 @@ function FindPage(inputPage) {
 
         for (let i = 1; i < pageContent[pageIndex].length; i++) {
             image.src = pageContent[pageIndex][i][0];
-            p.textContent = `${pageContent[pageIndex][i][1]}, zdjęcie numer: ${i}`;
+            p.textContent = `${pageContent[pageIndex][i][1]}, zdjęcie numer ${i}`;
 
             await new Promise(resolve => setTimeout(resolve, 2000));
         }
@@ -180,7 +181,7 @@ function FindPage(inputPage) {
         alert('Podaj prawidłową nazwę strony.');
     }
 }
-
+//Sprawdzenie czy istnieją przyciski i nadanie im wydarzeń.
   if (btLeft) {
       btLeft.addEventListener('click', ButtonLeftClick);
   }
@@ -190,17 +191,11 @@ function FindPage(inputPage) {
   }
 
   if (btInfo) {
-      btInfo.addEventListener('click', ShowAvailablePages);
+      btInfo.addEventListener('click', ShowInfo);
   }
 
   if (btSlide) {
       btSlide.addEventListener('click', StartSlideShow);
-      inputSlide.addEventListener("keypress", function(event) {
-        if (event.key === "Enter") {
-          StartSlideShow();
-        }
-      });
-
   }
 
   ChangePage(page);
