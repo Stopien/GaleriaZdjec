@@ -195,6 +195,11 @@ function FindPage(inputPage) {
 
   if (btSlide) {
       btSlide.addEventListener('click', StartSlideShow);
+      bySlide.addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+          StartSlideShow;
+        }
+      });
   }
 
   ChangePage(page);
