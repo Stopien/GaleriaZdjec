@@ -126,7 +126,7 @@ let ImageOpened = false;
       }
 
       const p = document.createElement("p");
-      p.innerHTML = 'Możesz użyć listy i przycisku </br> po lewej stronie aby </br> wyświetlić pokaz slajdów. </br> Możesz też kliknąc w </br> zdjęcie by je powiększyć </br> i kliknąć ponownie </br aby pomnijeszyć.';
+      p.innerHTML = 'Możesz użyć listy i przycisku </br> po lewej stronie aby </br> wyświetlić pokaz slajdów. </br> Możesz też kliknąc w </br> zdjęcie by je powiększyć </br> i kliknąć ponownie </br> aby pomnijeszyć.';
       InfoContainer.appendChild(p);
 
       document.body.appendChild(InfoContainer);
