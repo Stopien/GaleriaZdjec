@@ -1,19 +1,19 @@
-
-body, html {
+body {
     margin: 0;
     padding: 0;
-    font-family: 'Arial', sans-serif;
-	user-select:none
-}
-
-
-body {
+    font-family: 'Monospace';
+	user-select:none;
+    background-image: url('Zdjecia/Background.png');
+    background-size: cover;
+    background-position: center;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #f8f8f8;
 }
+
+
+
 
 #container {
     width: 80%;
@@ -55,7 +55,7 @@ body {
     margin: 10px;
     border-radius: 8px;
     transition: transform 0.3s ease;
-    cursor: pointer;
+    cursor: zoom-in;
 }
 
 
@@ -161,7 +161,7 @@ body {
 
 #slideImgInfo {
     color: #fff;
-    font-size: 18px;
+    font-size: 30px;
     margin-top: 10px;
     background-color: #000000;
 }
@@ -207,18 +207,8 @@ h2 {
 .liInfo {
 	margin-left: 10px
 }
-.temp-title {
-    color: #fff;
-    font-size: 20px;
-    margin-top: 10px;
-    text-align: center;
-}
-.temp-image {
-    max-width: 100%;
-    max-height: 80vh;
-    border-radius: 8px;
-    cursor: zoom-out;
-}
+
+/*Rzeczy po kliknieciu zdjecia*/
 .temp-container {
     position: fixed;
     top: 50%;
@@ -226,6 +216,58 @@ h2 {
     transform: translate(-50%, -50%);
     background-color: #445B72;
     padding: 20px;
-    cursor: zoom-out;
     z-index: 100;
-}
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .temp-image {
+    max-width: 80%;
+    max-height: 80vh;
+    border-radius: 8px;
+    cursor: no-drop;
+  }
+  
+  .temp-title {
+    color: #fff;
+    font-size: 20px;
+    margin: 10px 0;
+    text-align: center;
+  }
+  
+  .temp-button {
+    background-color: #2c3e50;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 24px;
+    cursor: pointer;
+    margin: 0 10px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .temp-button:hover {
+    background-color: #34495e;
+  }
+  
+  .temp-close-button {
+    background-color: #c0392b;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
+    cursor: zoom-out;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .temp-close-button:hover {
+    background-color: #e74c3c;
+  }

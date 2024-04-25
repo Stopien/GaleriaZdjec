@@ -17,7 +17,14 @@ document.addEventListener("DOMContentLoaded", () => {
           ["Zdjecia/page2/zdj5.png", 'Kot o ciekawym umaszczeniu'],
           ["Zdjecia/page2/zdj6.png", 'Kot obserwujący cię'],
           ["Zdjecia/page2/zdj7.png", 'Mały kot zagubiony w trawie'],
-          ["Zdjecia/page2/zdj8.png", 'Kot szykujący się do snu']
+          ["Zdjecia/page2/zdj8.png", 'Kot szykujący się do snu'],
+          ["Zdjecia/page2/zdj9.png", '3 kocięta, potrójne kłopoty'],
+          ["Zdjecia/page2/zdj10.png", 'Kot stojący na 2 łapach'],
+          ["Zdjecia/page2/zdj11.png", 'Drapieżnik na polowaniu'],
+          ["Zdjecia/page2/zdj12.png", 'Śniący kot'],
+          ["Zdjecia/page2/zdj13.png", 'Kot patrzący zza doniczki'],
+          ["Zdjecia/page2/zdj14.png", 'Szaro biały i ciekawy kot'],
+          ["Zdjecia/page2/zdj15.png", 'Duży, za duży kot']
       ],
       ["Samochody",
           ["Zdjecia/page3/zdj1.png", 'Czerwony samochód w lesie'],
@@ -25,8 +32,21 @@ document.addEventListener("DOMContentLoaded", () => {
           ["Zdjecia/page3/zdj3.png", 'Stare auto'],
           ["Zdjecia/page3/zdj4.png", 'Pojazd wakacyjny'],
           ["Zdjecia/page3/zdj5.png", 'Drogie auto'],
-          ["Zdjecia/page3/zdj6.png", 'Czarne auto na pustyni']
-      ]
+          ["Zdjecia/page3/zdj6.png", 'Czarne auto na pustyni'],
+          ["Zdjecia/page3/zdj7.png", 'Mysz w aucie'],
+          ["Zdjecia/page3/zdj8.png", 'Auto w zmierzch'],
+          ["Zdjecia/page3/zdj9.png", 'Zniszczone Auto'],
+          ["Zdjecia/page3/zdj10.png", 'Mech na samochodzie'],
+          ["Zdjecia/page3/zdj11.png", 'Rysunek samochodu']
+      ],
+      ["Natura",
+        ["Zdjecia/page4/zdj1.png", 'Las w jasny poranek'],
+        ["Zdjecia/page4/zdj2.png", 'Jezioro z kamieniami'],
+        ["Zdjecia/page4/zdj3.png", 'Wyspa nad jeziorem'],
+        ["Zdjecia/page4/zdj4.png", 'Kwiat wiśni'],
+        ["Zdjecia/page4/zdj5.png", 'Jesienna droga'],
+        ["Zdjecia/page4/zdj6.png", 'Burzowa łąka']
+  ]
   ];
 
   const btLeft = document.getElementById("goLeft");
@@ -61,13 +81,14 @@ document.addEventListener("DOMContentLoaded", () => {
       }
   }
 let ImageOpened = false;
-  function ImageClicked(event) {
+function ImageClicked(event) {
     if (!ImageOpened) {
       ImageOpened = true;
   
       let clickedImage = event.target;
       let imageUrl = clickedImage.src;
       let imageTitle = clickedImage.alt;
+      let imageIndex = parseInt(imageTitle.match(/\d+/)[0]) - 1;
   
       let Container = document.createElement('div');
       Container.className = 'temp-container';
@@ -80,17 +101,42 @@ let ImageOpened = false;
       Title.textContent = imageTitle;
       Title.className = 'temp-title';
   
-      Container.appendChild(Image);
-      Container.appendChild(Title);
+      let PrevButton = document.createElement('button');
+      PrevButton.textContent = '<';
+      PrevButton.className = 'temp-button';
+      PrevButton.addEventListener('click', () => {
+        imageIndex = (imageIndex - 1 + pageContent[page].length - 1) % (pageContent[page].length - 1);
+        Image.src = pageContent[page][imageIndex + 1][0];
+        Title.textContent = `${pageContent[page][imageIndex + 1][1]}, zdjęcie numer: ${imageIndex + 1}`;
+      });
   
-      document.body.appendChild(Container);
+      let NextButton = document.createElement('button');
+      NextButton.textContent = '>';
+      NextButton.className = 'temp-button';
+      NextButton.addEventListener('click', () => {
+        imageIndex = (imageIndex + 1) % (pageContent[page].length - 1);
+        Image.src = pageContent[page][imageIndex + 1][0];
+        Title.textContent = `${pageContent[page][imageIndex + 1][1]}, zdjęcie numer: ${imageIndex + 1}`;
+      });
   
-      Container.addEventListener('click', () => {
+      let CloseButton = document.createElement('button');
+      CloseButton.textContent = 'x';
+      CloseButton.className = 'temp-close-button';
+      CloseButton.addEventListener('click', () => {
         document.body.removeChild(Container);
         ImageOpened = false;
       });
+  
+      Container.appendChild(PrevButton);
+      Container.appendChild(Image);
+      Container.appendChild(NextButton);
+      Container.appendChild(Title);
+      Container.appendChild(CloseButton);
+  
+      document.body.appendChild(Container);
     }
   }
+  
 
   function ChangePage(page) {
       pageNumShow.textContent = page + 1;
@@ -126,7 +172,7 @@ let ImageOpened = false;
       }
 
       const p = document.createElement("p");
-      p.innerHTML = 'Możesz użyć listy i przycisku </br> po lewej stronie aby </br> wyświetlić pokaz slajdów. </br> Możesz też kliknąc w </br> zdjęcie by je powiększyć </br> i kliknąć ponownie </br> aby pomnijeszyć.';
+      p.innerHTML = 'Możesz użyć listy i przycisku </br> po lewej stronie aby </br> wyświetlić pokaz slajdów. </br> Możesz też kliknąc w </br> zdjęcie by je powiększyć.';
       InfoContainer.appendChild(p);
 
       document.body.appendChild(InfoContainer);
@@ -148,39 +194,53 @@ function FindPage(inputPage) {
     return -1; 
 }
 
-  async function StartSlideShow() {
-    const userInput = optionList.value
+async function StartSlideShow() {
+    const userInput = optionList.value;
     const pageIndex = FindPage(userInput);
 
     if (pageIndex !== -1) {
-        const slideContainer = document.createElement('div');
-        slideContainer.id = 'slideShowContainer';
-        document.body.appendChild(slideContainer);
+        const slideShowContainer = document.createElement('div');
+        slideShowContainer.id = 'slideShowContainer';
+        document.body.appendChild(slideShowContainer);
 
-        const slideContent = document.createElement('div');
-        slideContent.id = 'slideShowContent';
-        slideContainer.appendChild(slideContent);
+        const slideShowContent = document.createElement('div');
+        slideShowContent.id = 'slideShowContent';
+        slideShowContainer.appendChild(slideShowContent);
 
-        const image = document.createElement('img');
-        image.id = 'slideShowImg';
-        slideContent.appendChild(image);
+        const slideShowImage = document.createElement('img');
+        slideShowImage.id = 'slideShowImg';
+        slideShowContent.appendChild(slideShowImage);
 
-        const p = document.createElement('p');
-        p.id = 'slideImgInfo';
-        slideContent.appendChild(p);
+        const slideShowInfo = document.createElement('p');
+        slideShowInfo.id = 'slideImgInfo';
+        slideShowContent.appendChild(slideShowInfo);
+
+        const closeButton = document.createElement('button');
+        closeButton.textContent = 'x';
+        closeButton.className = 'temp-close-button';
+        closeButton.addEventListener('click', () => {
+            document.body.removeChild(slideShowContainer);
+        });
+        slideShowContainer.appendChild(closeButton);
 
         for (let i = 1; i < pageContent[pageIndex].length; i++) {
-            image.src = pageContent[pageIndex][i][0];
-            p.textContent = `${pageContent[pageIndex][i][1]}, zdjęcie numer ${i}`;
+            slideShowImage.src = pageContent[pageIndex][i][0];
+            slideShowInfo.textContent = `${pageContent[pageIndex][i][1]}, zdjęcie numer ${i}`;
 
             await new Promise(resolve => setTimeout(resolve, 2000));
-        }
 
-        document.body.removeChild(slideContainer);
-    } else {
-        alert('Podaj prawidłową nazwę strony.');
+            if (!document.contains(slideShowContainer)) {
+                break;
+            }
+
+            if (i === pageContent[pageIndex].length - 1) {
+                document.body.removeChild(slideShowContainer);
+            }
+        }
     }
 }
+
+
 //Sprawdzenie czy istnieją przyciski i nadanie im wydarzeń.
   if (btLeft) {
       btLeft.addEventListener('click', ButtonLeftClick);
